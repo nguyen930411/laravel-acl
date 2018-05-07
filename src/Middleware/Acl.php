@@ -16,10 +16,10 @@ class Acl
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (Auth::check()) {
+        if (Auth::guard($guard)->check()) {
             $routeName = $request->route()->getName();
 
-            if (Auth::user()->role->is_admin || Auth::user()->hasPermissionTo($routeName)) {
+            if (Auth::guard($guard)->user()->role->is_admin || Auth::guard($guard)->user()->hasPermissionTo($routeName)) {
                 return $next($request);
             }
         }
